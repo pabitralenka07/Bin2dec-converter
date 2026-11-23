@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bin2Dec & Dec2Bin - Base Converter</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="background-grid"></div>
+  
+  <div class="container">
+    <header class="app-header">
+      <div class="badge">Tier 1 · Interactive Base Converter</div>
+      <h1 id="appTitle">Bin<span class="highlight">2</span>Dec</h1>
+      <p id="appSubtitle" class="subtitle">Convert binary (base 2) into decimal (base 10) with real-time mathematical breakdown.</p>
+    </header>
+
+    <main class="card converter-card">
+      <!-- Mode Selection Tabs -->
+      <div class="converter-mode-nav">
+        <div class="mode-tabs">
+          <button id="tabBin2Dec" class="tab-btn active" data-mode="bin2dec">
+            <span class="tab-icon">01</span>
+            <span>Binary ➔ Decimal</span>
+          </button>
+          <button id="tabDec2Bin" class="tab-btn" data-mode="dec2bin">
+            <span class="tab-icon">10</span>
+            <span>Decimal ➔ Binary</span>
+          </button>
+        </div>
+        <button id="swapDirectionBtn" class="swap-direction-btn" title="Swap conversion direction">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M7 16V4m0 0L3 8m4-4l4 4m6 4v12m0 0l4-4m-4 4l-4-4"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Constraint Badges -->
+      <div class="constraints-bar">
+        <span class="constraint-tag">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>
+          Zero Array Storage
+        </span>
+        <span id="mathConstraintTag" class="constraint-tag">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>
+          Single Math Function: <code>Math.pow(2, i)</code>
+        </span>
+      </div>
+
+      <!-- Mode Toggle (Bonus Feature) -->
+      <div class="mode-toggle-wrapper">
+        <label class="switch-label" for="unlimitedModeToggle">
+          <div class="switch">
+            <input type="checkbox" id="unlimitedModeToggle">
+            <span class="slider round"></span>
+          </div>
+          <span id="unlimitedModeLabel" class="switch-text">Bonus Mode: Variable length (unlimited digits)</span>
+        </label>
+        <span id="digitCounter" class="digit-counter">0 / 8 bits</span>
+      </div>
+
+      <!-- Input Field -->
+      <div class="form-group">
+        <label id="inputLabel" for="mainInput">Binary Input (0s & 1s only)</label>
+        <div class="input-wrapper">
+          <input 
+            type="text" 
+            id="mainInput" 
+            placeholder="e.g. 11010010" 
+            maxlength="8" 
+            autocomplete="off" 
+            spellcheck="false"
+            autofocus
+          >
+          <button id="clearBtn" class="clear-btn" title="Clear input" aria-label="Clear input">
+            &times;
+          </button>
+        </div>
+        <!-- Error Notification Banner -->
+        <div id="errorNotification" class="notification hidden" role="alert">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="12"></line>
+            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+          </svg>
+          <span id="errorMessage">Invalid character! Only 0 and 1 are allowed.</span>
+        </div>
+      </div>
+
+      <!-- Quick Action Dial Pad -->
+      <div id="numpad" class="numpad">
+        <button type="button" class="key-btn" data-val="0">0</button>
+        <button type="button" class="key-btn" data-val="1">1</button>
+        <button type="button" class="key-btn action-key" id="randomBtn" title="Generate random value">🎲 Random</button>
+        <button type="button" class="key-btn action-key" id="backspaceBtn" title="Backspace">⌫</button>
+      </div>
+
+      <!-- Decimal Numpad (for Dec2Bin mode) -->
+      <div id="decimalNumpad" class="decimal-numpad hidden">
+        <button type="button" class="key-btn dec-key" data-val="1">1</button>
+        <button type="button" class="key-btn dec-key" data-val="2">2</button>
+        <button type="button" class="key-btn dec-key" data-val="3">3</button>
+        <button type="button" class="key-btn dec-key" data-val="4">4</button>
+        <button type="button" class="key-btn dec-key" data-val="5">5</button>
+        <button type="button" class="key-btn dec-key" data-val="6">6</button>
+        <button type="button" class="key-btn dec-key" data-val="7">7</button>
+        <button type="button" class="key-btn dec-key" data-val="8">8</button>
+        <button type="button" class="key-btn dec-key" data-val="9">9</button>
+        <button type="button" class="key-btn action-key" id="randomDecBtn">🎲 Random</button>
+        <button type="button" class="key-btn dec-key" data-val="0">0</button>
+        <button type="button" class="key-btn action-key" id="backspaceDecBtn">⌫</button>
+      </div>
+
+      <!-- Output Field -->
+      <div class="form-group">
+        <label id="outputLabel" for="mainOutput">Decimal Result (Base 10)</label>
+        <div class="output-wrapper">
+          <input 
+            type="text" 
+            id="mainOutput" 
+            readonly 
+            value="0" 
+            placeholder="0"
+          >
+          <button id="copyBtn" class="copy-btn" title="Copy to clipboard">
+            <svg id="copyIcon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+            <span id="copyText">Copy</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Live Bit Pills -->
+      <div id="bitVisualizer" class="bit-visualizer-container">
+        <!-- Dynamically rendered bit pills -->
+      </div>
+
+      <!-- Step-by-Step Calculation Breakdown -->
+      <div id="mathDetails" class="math-details">
+        <div class="math-header">
+          <h3 id="breakdownTitle">Mathematical Breakdown</h3>
+          <span id="mathFormula" class="math-formula">$$\sum (\text{bit}_i \times 2^i)$$</span>
+        </div>
+        <div id="mathSteps" class="math-steps">
+          <div class="empty-state">Enter digits above to inspect the formula.</div>
+        </div>
+      </div>
+    </main>
+
+    <footer class="app-footer">
+      <p>Built strictly adhering to the Bin2Dec challenge rules & expanded with Dec2Bin.</p>
+    </footer>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
