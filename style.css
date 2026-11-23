@@ -43,7 +43,6 @@ body {
   padding: 24px 16px;
 }
 
-/* Background Subtle Tech Grid */
 .background-grid {
   position: fixed;
   inset: 0;
@@ -66,7 +65,6 @@ body {
   gap: 24px;
 }
 
-/* Header */
 .app-header {
   text-align: center;
 }
@@ -104,7 +102,6 @@ body {
   line-height: 1.5;
 }
 
-/* Card */
 .card {
   background: var(--bg-secondary);
   border: 1px solid var(--card-border);
@@ -117,7 +114,6 @@ body {
   gap: 20px;
 }
 
-/* Mode Selection Tabs & Swap */
 .converter-mode-nav {
   display: flex;
   align-items: center;
@@ -196,7 +192,6 @@ body {
   transform: rotate(180deg);
 }
 
-/* Constraints Bar */
 .constraints-bar {
   display: flex;
   flex-wrap: wrap;
@@ -225,7 +220,6 @@ body {
   border-radius: 4px;
 }
 
-/* Mode Switch */
 .mode-toggle-wrapper {
   display: flex;
   align-items: center;
@@ -305,7 +299,6 @@ input:checked + .slider:before {
   border-radius: var(--radius-sm);
 }
 
-/* Form Groups */
 .form-group {
   display: flex;
   flex-direction: column;
@@ -381,7 +374,6 @@ input[type="text"].invalid {
   color: var(--text-primary);
 }
 
-/* Error Notification */
 .notification {
   display: flex;
   align-items: center;
@@ -400,7 +392,6 @@ input[type="text"].invalid {
   display: none;
 }
 
-/* Numpads */
 .numpad {
   display: grid;
   grid-template-columns: 1fr 1fr 1.2fr 0.8fr;
@@ -450,7 +441,6 @@ input[type="text"].invalid {
   color: var(--text-secondary);
 }
 
-/* Output Wrapper */
 #mainOutput {
   padding-right: 90px;
   background: #090e1a;
@@ -486,7 +476,6 @@ input[type="text"].invalid {
   color: #000;
 }
 
-/* Bit Pills Visualizer */
 .bit-visualizer-container {
   display: flex;
   flex-wrap: wrap;
@@ -536,7 +525,6 @@ input[type="text"].invalid {
   color: #7dd3fc;
 }
 
-/* Step Calculation Breakdown */
 .math-details {
   background: var(--bg-input);
   border: 1px solid var(--border-color);
@@ -608,7 +596,6 @@ input[type="text"].invalid {
   padding: 8px 0;
 }
 
-/* Footer */
 .app-footer {
   text-align: center;
   font-size: 0.8rem;

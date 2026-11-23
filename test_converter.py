@@ -1,9 +1,3 @@
-#!/usr/bin/env python3
-"""
-Unit Test Suite for Bin2Dec & Dec2Bin Converter
-Verifies all algorithmic constraints and edge cases.
-"""
-
 import unittest
 from converter import bin_to_dec, dec_to_bin, validate_binary_string
 
@@ -31,10 +25,9 @@ class TestBin2Dec(unittest.TestCase):
 
     def test_exceeding_8_bits_raises_error(self):
         with self.assertRaises(ValueError):
-            bin_to_dec("100000000", max_bits=8)  # 9 bits
+            bin_to_dec("100000000", max_bits=8)
 
     def test_bonus_unlimited_bits(self):
-        # 1024 = 2^10 = '10000000000' (11 bits)
         val, _ = bin_to_dec("10000000000", max_bits=0)
         self.assertEqual(val, 1024)
 
@@ -78,7 +71,6 @@ class TestDec2Bin(unittest.TestCase):
 
 class TestRoundTrip(unittest.TestCase):
     def test_bidirectional_roundtrip(self):
-        # Test all values from 0 to 512
         for n in range(513):
             bin_str, _ = dec_to_bin(n, max_bits=0)
             dec_val, _ = bin_to_dec(bin_str, max_bits=0)

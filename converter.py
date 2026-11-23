@@ -1,23 +1,8 @@
-#!/usr/bin/env python3
-"""
-Bin2Dec & Dec2Bin - Base Converter (Python CLI & Core Engine)
-
-CHALLENGE CONSTRAINTS HONORED:
-1. Arrays may NOT be used to contain the binary digits entered by the user.
-   -> Uses direct string character indexing without creating lists or arrays of digits.
-2. Determining the decimal equivalent of each binary digit must use a single mathematical function.
-   -> Uses pow(2, power) for calculating the decimal weight of each bit.
-"""
-
 import sys
 import math
 
 
 def validate_binary_string(binary_str: str) -> tuple[bool, str]:
-    """
-    Validates that the input contains only '0' and '1' characters
-    WITHOUT converting the string into an array.
-    """
     if not binary_str:
         return False, "Input cannot be empty."
 
@@ -30,19 +15,8 @@ def validate_binary_string(binary_str: str) -> tuple[bool, str]:
 
 
 def bin_to_dec(binary_str: str, max_bits: int = 8) -> tuple[int, list[str]]:
-    """
-    Converts a binary string to its decimal equivalent.
-    
-    Constraints enforced:
-    - No arrays/lists used to store the binary digits.
-    - Uses single mathematical function: pow(2, power).
-    
-    Returns:
-        (decimal_value, step_explanations)
-    """
     binary_str = binary_str.strip()
     
-    # Check max length if not unlimited (max_bits is None or 0 for unlimited)
     if max_bits and len(binary_str) > max_bits:
         raise ValueError(f"Binary string exceeds maximum limit of {max_bits} digits (got {len(binary_str)}).")
 
@@ -55,12 +29,10 @@ def bin_to_dec(binary_str: str, max_bits: int = 8) -> tuple[int, list[str]]:
     steps = []
 
     for i in range(str_len):
-        # Character extracted directly by index (no array creation)
         ch = binary_str[i]
         power = str_len - 1 - i
         bit = 1 if ch == '1' else 0
 
-        # Mathematical function per constraint:
         weight = pow(2, power)
         contribution = bit * weight
         decimal_total += contribution
@@ -73,16 +45,6 @@ def bin_to_dec(binary_str: str, max_bits: int = 8) -> tuple[int, list[str]]:
 
 
 def dec_to_bin(decimal_num: int, max_bits: int = 8) -> tuple[str, list[str]]:
-    """
-    Converts a non-negative decimal integer to a binary string.
-    
-    Constraints enforced:
-    - Zero arrays used for digit storage.
-    - Uses repeated modulo (decimal_num % 2) and integer division (// 2).
-    
-    Returns:
-        (binary_string, step_explanations)
-    """
     if decimal_num < 0:
         raise ValueError("Decimal number must be non-negative.")
 
@@ -101,14 +63,12 @@ def dec_to_bin(decimal_num: int, max_bits: int = 8) -> tuple[str, list[str]]:
         remainder = current % 2
         quotient = current // 2
         steps.append(f"{current} // 2 = {quotient}, Remainder = {remainder}")
-        # Prepend directly to string without list/array
         binary_result = str(remainder) + binary_result
         current = quotient
 
     return binary_result, steps
 
 
-# ANSI Terminal Colors
 CYAN = "\033[96m"
 GREEN = "\033[92m"
 YELLOW = "\033[93m"
@@ -157,7 +117,6 @@ def cli_interactive():
                 dec_val, steps = bin_to_dec(raw, max_bits=0)
                 print(f"\n{GREEN}{BOLD}Decimal Result: {dec_val}{RESET}")
                 print(f"{YELLOW}Mathematical Breakdown ({len(steps)} bits):{RESET}")
-                # Print breakdown summary
                 if len(steps) > 16:
                     for s in steps[:8]:
                         print(f"  • {s}")

@@ -1,9 +1,3 @@
-#!/usr/bin/env python3
-"""
-Bin2Dec & Dec2Bin - Tkinter Desktop GUI
-A sleek, modern dark-mode desktop interface for binary and decimal conversions.
-"""
-
 import tkinter as tk
 from tkinter import ttk, messagebox
 import converter
@@ -18,8 +12,7 @@ class BaseConverterGUI(tk.Tk):
         self.minsize(500, 580)
         self.configure(bg="#0a0f1d")
 
-        # State
-        self.mode = tk.StringVar(value="bin2dec")  # 'bin2dec' or 'dec2bin'
+        self.mode = tk.StringVar(value="bin2dec")
         self.is_unlimited = tk.BooleanVar(value=False)
 
         self._build_styles()
@@ -30,7 +23,6 @@ class BaseConverterGUI(tk.Tk):
         style = ttk.Style(self)
         style.theme_use("clam")
 
-        # Configure custom ttk elements
         style.configure(".", background="#0a0f1d", foreground="#f8fafc")
         style.configure("TFrame", background="#0a0f1d")
         style.configure("Card.TFrame", background="#131b2e", relief="flat")
@@ -68,7 +60,6 @@ class BaseConverterGUI(tk.Tk):
         )
 
     def _build_ui(self):
-        # Header container
         header_frame = ttk.Frame(self)
         header_frame.pack(fill="x", padx=24, pady=(20, 10))
 
@@ -91,11 +82,9 @@ class BaseConverterGUI(tk.Tk):
             style="Subheader.TLabel"
         ).pack(anchor="center", pady=(4, 0))
 
-        # Main Card
         card = ttk.Frame(self, style="Card.TFrame", padding=18)
         card.pack(fill="both", expand=True, padx=20, pady=10)
 
-        # Mode Selector Buttons & Swap
         mode_frame = tk.Frame(card, bg="#131b2e")
         mode_frame.pack(fill="x", pady=(0, 12))
 
@@ -127,8 +116,7 @@ class BaseConverterGUI(tk.Tk):
             relief="flat",
             padx=10,
             pady=4,
-            cursor="hand2",
-            title="Swap conversion direction" if hasattr(tk.Button, 'title') else None
+            cursor="hand2"
         )
         self.btn_swap.pack(side="left", padx=4)
 
@@ -148,7 +136,6 @@ class BaseConverterGUI(tk.Tk):
         )
         self.btn_dec2bin.pack(side="left", fill="x", expand=True, padx=(4, 0))
 
-        # Bonus Mode Toggle Checkbox
         opt_frame = tk.Frame(card, bg="#131b2e")
         opt_frame.pack(fill="x", pady=(0, 10))
 
@@ -178,7 +165,6 @@ class BaseConverterGUI(tk.Tk):
         )
         self.counter_lbl.pack(side="right")
 
-        # Input Area
         self.input_lbl = ttk.Label(card, text="BINARY INPUT (0s & 1s ONLY)", style="FieldLabel.TLabel")
         self.input_lbl.pack(anchor="w", pady=(4, 4))
 
@@ -212,11 +198,9 @@ class BaseConverterGUI(tk.Tk):
         )
         btn_clear.pack(side="right")
 
-        # Error notification
         self.error_lbl = ttk.Label(card, text="", style="Error.TLabel")
         self.error_lbl.pack(anchor="w", pady=(0, 6))
 
-        # Output Area
         self.output_lbl = ttk.Label(card, text="DECIMAL RESULT", style="FieldLabel.TLabel")
         self.output_lbl.pack(anchor="w", pady=(4, 4))
 
@@ -250,7 +234,6 @@ class BaseConverterGUI(tk.Tk):
         )
         btn_copy.pack(side="right", padx=4)
 
-        # Mathematical Breakdown area
         breakdown_header = tk.Frame(card, bg="#131b2e")
         breakdown_header.pack(fill="x", pady=(6, 4))
 
@@ -335,7 +318,6 @@ class BaseConverterGUI(tk.Tk):
         m = self.mode.get()
         unlimited = self.is_unlimited.get()
 
-        # Update counter
         if m == "bin2dec":
             self.counter_lbl.config(text=f"{len(val)} bits" if unlimited else f"{len(val)} / 8 bits")
         else:

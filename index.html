@@ -20,7 +20,6 @@
     </header>
 
     <main class="card converter-card">
-      <!-- Mode Selection Tabs -->
       <div class="converter-mode-nav">
         <div class="mode-tabs">
           <button id="tabBin2Dec" class="tab-btn active" data-mode="bin2dec">
@@ -39,7 +38,6 @@
         </button>
       </div>
 
-      <!-- Constraint Badges -->
       <div class="constraints-bar">
         <span class="constraint-tag">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>
@@ -51,7 +49,6 @@
         </span>
       </div>
 
-      <!-- Mode Toggle (Bonus Feature) -->
       <div class="mode-toggle-wrapper">
         <label class="switch-label" for="unlimitedModeToggle">
           <div class="switch">
@@ -63,7 +60,6 @@
         <span id="digitCounter" class="digit-counter">0 / 8 bits</span>
       </div>
 
-      <!-- Input Field -->
       <div class="form-group">
         <label id="inputLabel" for="mainInput">Binary Input (0s & 1s only)</label>
         <div class="input-wrapper">
@@ -80,7 +76,6 @@
             &times;
           </button>
         </div>
-        <!-- Error Notification Banner -->
         <div id="errorNotification" class="notification hidden" role="alert">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <circle cx="12" cy="12" r="10"></circle>
@@ -91,7 +86,6 @@
         </div>
       </div>
 
-      <!-- Quick Action Dial Pad -->
       <div id="numpad" class="numpad">
         <button type="button" class="key-btn" data-val="0">0</button>
         <button type="button" class="key-btn" data-val="1">1</button>
@@ -99,7 +93,6 @@
         <button type="button" class="key-btn action-key" id="backspaceBtn" title="Backspace">⌫</button>
       </div>
 
-      <!-- Decimal Numpad (for Dec2Bin mode) -->
       <div id="decimalNumpad" class="decimal-numpad hidden">
         <button type="button" class="key-btn dec-key" data-val="1">1</button>
         <button type="button" class="key-btn dec-key" data-val="2">2</button>
@@ -115,7 +108,6 @@
         <button type="button" class="key-btn action-key" id="backspaceDecBtn">⌫</button>
       </div>
 
-      <!-- Output Field -->
       <div class="form-group">
         <label id="outputLabel" for="mainOutput">Decimal Result (Base 10)</label>
         <div class="output-wrapper">
@@ -136,12 +128,9 @@
         </div>
       </div>
 
-      <!-- Live Bit Pills -->
       <div id="bitVisualizer" class="bit-visualizer-container">
-        <!-- Dynamically rendered bit pills -->
       </div>
 
-      <!-- Step-by-Step Calculation Breakdown -->
       <div id="mathDetails" class="math-details">
         <div class="math-header">
           <h3 id="breakdownTitle">Mathematical Breakdown</h3>

@@ -1,14 +1,3 @@
-/**
- * Base Converter: Bin2Dec & Dec2Bin
- * 
- * CHALLENGE CONSTRAINTS HONORED:
- * 1. Arrays may NOT be used to contain the digits entered by the user.
- *    -> String indexing and character extraction (charAt) or string concatenation are used directly.
- * 2. Determining the decimal equivalent of each binary digit must use a single mathematical function.
- *    -> We use Math.pow(2, power) in Bin2Dec mode.
- */
-
-// DOM Elements
 const appTitle = document.getElementById('appTitle');
 const appSubtitle = document.getElementById('appSubtitle');
 const tabBin2Dec = document.getElementById('tabBin2Dec');
@@ -46,11 +35,9 @@ const mathSteps = document.getElementById('mathSteps');
 const breakdownTitle = document.getElementById('breakdownTitle');
 const mathFormula = document.getElementById('mathFormula');
 
-// App State
-let currentMode = 'bin2dec'; // 'bin2dec' or 'dec2bin'
+let currentMode = 'bin2dec';
 let isUnlimitedMode = false;
 
-// Mode Configuration
 const MODES = {
   bin2dec: {
     title: 'Bin<span class="highlight">2</span>Dec',
@@ -76,13 +63,9 @@ const MODES = {
   }
 };
 
-/**
- * Switch mode between bin2dec and dec2bin
- */
 function setMode(mode, transferValue = false) {
   currentMode = mode;
 
-  // Update tabs UI
   tabBin2Dec.classList.toggle('active', mode === 'bin2dec');
   tabDec2Bin.classList.toggle('active', mode === 'dec2bin');
 
@@ -95,11 +78,9 @@ function setMode(mode, transferValue = false) {
   mathFormula.textContent = config.formula;
   unlimitedModeLabel.textContent = config.unlimitedLabel;
 
-  // Toggle numpads
   numpad.classList.toggle('hidden', mode !== 'bin2dec');
   decimalNumpad.classList.toggle('hidden', mode !== 'dec2bin');
 
-  // Input attributes
   if (mode === 'bin2dec') {
     if (isUnlimitedMode) {
       mainInput.removeAttribute('maxlength');
@@ -109,17 +90,15 @@ function setMode(mode, transferValue = false) {
       mainInput.placeholder = config.placeholder;
     }
   } else {
-    // dec2bin
     if (isUnlimitedMode) {
       mainInput.removeAttribute('maxlength');
       mainInput.placeholder = config.unlimitedPlaceholder;
     } else {
-      mainInput.setAttribute('maxlength', '3'); // 0 to 255 fits in 3 chars
+      mainInput.setAttribute('maxlength', '3');
       mainInput.placeholder = config.placeholder;
     }
   }
 
-  // Value transfer if swapping
   if (transferValue) {
     const rawPrevOutput = mainOutput.value.replace(/,/g, '').trim();
     if (rawPrevOutput && rawPrevOutput !== '0' && rawPrevOutput !== 'Error') {
@@ -136,26 +115,17 @@ function setMode(mode, transferValue = false) {
   mainInput.focus();
 }
 
-/**
- * Shows error notification
- */
 function showError(message) {
   errorMessage.textContent = message;
   errorNotification.classList.remove('hidden');
   mainInput.classList.add('invalid');
 }
 
-/**
- * Hides error notification
- */
 function hideError() {
   errorNotification.classList.add('hidden');
   mainInput.classList.remove('invalid');
 }
 
-/**
- * Update digit/bit counter
- */
 function updateCounter() {
   const len = mainInput.value.length;
   if (currentMode === 'bin2dec') {
@@ -174,9 +144,6 @@ function updateCounter() {
   }
 }
 
-/**
- * Master conversion dispatcher
- */
 function processConversion() {
   clearBtn.classList.toggle('visible', mainInput.value.length > 0);
   updateCounter();
@@ -188,11 +155,6 @@ function processConversion() {
   }
 }
 
-/**
- * Bin2Dec Conversion
- * Strict constraint: No arrays used for storing user binary digits.
- * Mathematical function: Math.pow(2, power).
- */
 function convertBinaryToDecimal() {
   const inputStr = mainInput.value;
 
@@ -204,7 +166,6 @@ function convertBinaryToDecimal() {
     return;
   }
 
-  // Validate characters without arrays
   for (let i = 0; i < inputStr.length; i++) {
     const char = inputStr.charAt(i);
     if (char !== '0' && char !== '1') {
@@ -228,7 +189,6 @@ function convertBinaryToDecimal() {
     const power = len - 1 - i;
     const bit = char === '1' ? 1 : 0;
     
-    // Constraint: single math function
     const weight = Math.pow(2, power);
     const contribution = bit * weight;
     decimalTotal += contribution;
@@ -264,11 +224,6 @@ function convertBinaryToDecimal() {
   mathSteps.innerHTML = mathHtml;
 }
 
-/**
- * Dec2Bin Conversion
- * Strict constraint: No arrays used for storing digits.
- * Algorithm: Repeated successive division by 2 with remainder extraction.
- */
 function convertDecimalToBinary() {
   const inputStr = mainInput.value.trim();
 
@@ -280,7 +235,6 @@ function convertDecimalToBinary() {
     return;
   }
 
-  // Validate decimal characters
   for (let i = 0; i < inputStr.length; i++) {
     const char = inputStr.charAt(i);
     if (char < '0' || char > '9') {
@@ -294,7 +248,6 @@ function convertDecimalToBinary() {
 
   const num = parseInt(inputStr, 10);
 
-  // 8-bit constraint if not in bonus mode
   if (!isUnlimitedMode && num > 255) {
     showError(`Number exceeds 255 (8-bit limit)! Enable Bonus Mode for unlimited values.`);
     mainOutput.value = 'Error';
@@ -305,7 +258,6 @@ function convertDecimalToBinary() {
 
   hideError();
 
-  // Edge case for 0
   if (num === 0) {
     mainOutput.value = '0';
     bitVisualizer.innerHTML = `
@@ -323,7 +275,6 @@ function convertDecimalToBinary() {
     return;
   }
 
-  // Successive division by 2 without array storage
   let current = num;
   let binaryResult = '';
   let divisionStepsHtml = '';
@@ -337,16 +288,14 @@ function convertDecimalToBinary() {
         <span class="step-calc">${current} ÷ 2 = ${quotient}</span>
         <span class="step-res">Remainder: <strong class="${remainder === 1 ? 'calc-active' : ''}">${remainder}</strong></span>
       </div>
-    ` + divisionStepsHtml; // prepend step for bottom-to-top reading
+    ` + divisionStepsHtml;
 
-    // Prepend remainder directly to string (no arrays)
     binaryResult = remainder + binaryResult;
     current = quotient;
   }
 
   mainOutput.value = binaryResult;
 
-  // Render bit pills for result
   let pillsHtml = '';
   const bitLen = binaryResult.length;
   for (let i = 0; i < bitLen; i++) {
@@ -387,24 +336,18 @@ function renderEmptyMath(msg) {
   `;
 }
 
-// Event Listeners
-
-// Mode tab clicks
 tabBin2Dec.addEventListener('click', () => setMode('bin2dec', false));
 tabDec2Bin.addEventListener('click', () => setMode('dec2bin', false));
 
-// Swap direction button
 swapDirectionBtn.addEventListener('click', () => {
   const nextMode = currentMode === 'bin2dec' ? 'dec2bin' : 'bin2dec';
   setMode(nextMode, true);
 });
 
-// Input handling
 mainInput.addEventListener('input', () => {
   processConversion();
 });
 
-// Keydown prevention for instant feedback
 mainInput.addEventListener('keydown', (e) => {
   const allowedKeys = ['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'Home', 'End', 'Tab', 'Enter'];
   if (allowedKeys.includes(e.key) || e.ctrlKey || e.metaKey) {
@@ -426,20 +369,17 @@ mainInput.addEventListener('keydown', (e) => {
   }
 });
 
-// Clear button
 clearBtn.addEventListener('click', () => {
   mainInput.value = '';
   mainInput.focus();
   processConversion();
 });
 
-// Mode switch (Variable length / magnitude bonus)
 unlimitedModeToggle.addEventListener('change', (e) => {
   isUnlimitedMode = e.target.checked;
   setMode(currentMode, false);
 });
 
-// Binary Numpad buttons ('0' and '1')
 binaryKeyBtns.forEach(btn => {
   btn.addEventListener('click', () => {
     const val = btn.getAttribute('data-val');
@@ -454,7 +394,6 @@ binaryKeyBtns.forEach(btn => {
   });
 });
 
-// Decimal Numpad buttons ('0'-'9')
 decimalKeyBtns.forEach(btn => {
   btn.addEventListener('click', () => {
     const val = btn.getAttribute('data-val');
@@ -470,7 +409,6 @@ decimalKeyBtns.forEach(btn => {
   });
 });
 
-// Backspace buttons
 function handleBackspace() {
   if (mainInput.value.length > 0) {
     mainInput.value = mainInput.value.slice(0, -1);
@@ -481,7 +419,6 @@ function handleBackspace() {
 backspaceBtn.addEventListener('click', handleBackspace);
 backspaceDecBtn.addEventListener('click', handleBackspace);
 
-// Random generators
 randomBtn.addEventListener('click', () => {
   const targetLength = isUnlimitedMode ? Math.floor(Math.random() * 8) + 8 : 8;
   let randomBinary = '';
@@ -499,7 +436,6 @@ randomDecBtn.addEventListener('click', () => {
   processConversion();
 });
 
-// Copy to clipboard
 copyBtn.addEventListener('click', async () => {
   const textToCopy = mainOutput.value.replace(/,/g, '');
   if (!textToCopy || textToCopy === 'Error') return;
@@ -528,5 +464,4 @@ copyBtn.addEventListener('click', async () => {
   }
 });
 
-// Initialization
 setMode('bin2dec', false);
